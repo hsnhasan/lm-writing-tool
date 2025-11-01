@@ -576,6 +576,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
 			// Reset Ollama model to default
 			await ollamaConfig.update('model', undefined, vscode.ConfigurationTarget.Global);
+			await ollamaConfig.update('host', undefined, vscode.ConfigurationTarget.Global);
 
 			vscode.window.showInformationMessage('All extension settings have been reset to their default values');
 		})

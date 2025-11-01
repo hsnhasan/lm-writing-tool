@@ -24,6 +24,11 @@ export class OllamaLLM implements vscode.LanguageModelChat {
         return config.get<string>('model') || 'llama3.2:3b';
     }
 
+    private getConfiguredHost(): string {
+        const config = vscode.workspace.getConfiguration('lmWritingTool.ollama');
+        return config.get<string>('host') || 'http://127.0.0.1:11434';
+    }
+
     constructor(familiy: string, version: string) {
         this.name = 'ollama';
         this.id = 'ollama';
@@ -45,6 +50,7 @@ export class OllamaLLM implements vscode.LanguageModelChat {
         // Get the configured model
         const config = vscode.workspace.getConfiguration('lmWritingTool.ollama');
         const configuredModel = config.get<string>('model') || 'llama3.2:3b';
+        const configuredHost = config.get<string>('host') || 'http://127.0.0.1:11434';
 
         const availableModels = await ollama.list();
         if (availableModels.models.filter(model => model.model === configuredModel).length !== 1) {
@@ -55,7 +61,7 @@ export class OllamaLLM implements vscode.LanguageModelChat {
                     title: `Pulling ${configuredModel} model`,
                     cancellable: true
                 }, async (progress, token) => {
-                    const downloadResp = await ollama.pull({ model: configuredModel, stream: true });
+                    const downloadResp = await ollama.pull({ host: configuredHost, model: configuredModel, stream: true });
                     token.onCancellationRequested(() => {
                         downloadResp.abort();
 
@@ -106,7 +112,9 @@ export class OllamaLLM implements vscode.LanguageModelChat {
             const lmOptions = Object.assign({}, defaultOptions, options);
             try {
                 const configuredModel = this.getConfiguredModel();
+                const configuredHost = this.getConfiguredHost();
                 const response = await ollama.chat({
+                    host: configuredHost,
                     model: configuredModel,
                     messages: stringMessages,
                     stream: true,

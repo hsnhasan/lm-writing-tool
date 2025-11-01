@@ -76,6 +76,11 @@
           "type": "string",
           "default": "llama3.2:3b",
           "description": "The Ollama model to use for text processing. Make sure the model is available on your local Ollama server."
+        },
+        "lmWritingTool.ollama.host": {
+          "type": "string",
+          "default": "http://127.0.0.1:11434",
+          "description": "The Ollama server IP:PORT to use for text processing. Example: http://127.0.0.1:11434"
         }
       }
     }
@@ -114,7 +119,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/peteole/lm-writing-tool"
+    "url": "https://github.com/hsnhasan/lm-writing-tool"
   },
   "icon": "resources/logo.png",
   "license": "MIT"

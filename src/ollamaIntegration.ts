@@ -50,7 +50,7 @@ export class OllamaLLM implements vscode.LanguageModelChat {
         // Get the configured model
         const config = vscode.workspace.getConfiguration('lmWritingTool.ollama');
         const configuredModel = config.get<string>('model') || 'llama3.2:3b';
-        const configuredHost = config.get<string>('host') || 'http://127.0.0.1:11434';
+        //const configuredHost = config.get<string>('host') || 'http://127.0.0.1:11434';
 
         const availableModels = await ollama.list();
         if (availableModels.models.filter(model => model.model === configuredModel).length !== 1) {
@@ -113,8 +113,8 @@ export class OllamaLLM implements vscode.LanguageModelChat {
             try {
                 const configuredModel = this.getConfiguredModel();
                 const configuredHost = this.getConfiguredHost();
-                const response = await ollama.chat({
-                    host: configuredHost,
+                const ollama_obj = new ollama({ host: configuredHost })
+                const response = await ollama_obj.chat({
                     model: configuredModel,
                     messages: stringMessages,
                     stream: true,

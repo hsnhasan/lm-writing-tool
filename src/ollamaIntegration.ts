@@ -61,7 +61,7 @@ export class OllamaLLM implements vscode.LanguageModelChat {
                     title: `Pulling ${configuredModel} model`,
                     cancellable: true
                 }, async (progress, token) => {
-                    const downloadResp = await ollama.pull({ host: configuredHost, model: configuredModel, stream: true });
+                    const downloadResp = await ollama.pull({ model: configuredModel, stream: true });
                     token.onCancellationRequested(() => {
                         downloadResp.abort();
 

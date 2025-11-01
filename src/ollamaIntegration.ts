@@ -1,4 +1,4 @@
-import ollama, { ChatResponse } from 'ollama';
+import ollama, { Ollama, ChatResponse } from 'ollama';
 import * as vscode from 'vscode';
 
 function llmMessageToString(message: vscode.LanguageModelChatMessage): string {
@@ -113,7 +113,7 @@ export class OllamaLLM implements vscode.LanguageModelChat {
             try {
                 const configuredModel = this.getConfiguredModel();
                 const configuredHost = this.getConfiguredHost();
-                const ollama_obj = new ollama({ host: configuredHost })
+                const ollama_obj = new Ollama({ host: configuredHost })
                 const response = await ollama_obj.chat({
                     model: configuredModel,
                     messages: stringMessages,

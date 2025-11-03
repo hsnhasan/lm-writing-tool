@@ -119,12 +119,12 @@ class LMWritingTool {
 			throw new Error('No response');
 		}
 		console.info(`Response: ${resp}`);
-		if (resp.startsWith('Correction: ')) {
-			const correctedVersion = resp.slice('Correction: '.length);
+		if (resp.trimStart().startsWith('Correction: ')) {
+			const correctedVersion = resp.trimStart().slice('Correction: '.length);
 			// const trailingSpacesOfOriginal = text.match(/\s*$/)?.[0] || '';
 			// const correctedVersionWithTrailingSpaces = trailingSpacesOfOriginal + correctedVersion.trimStart();
 			return { correctedVersion };
-		} else if (resp.startsWith('Correct')) {
+		} else if (resp.trimStart().startsWith('Correct')) {
 			return {};
 		} else {
 			console.warn(`Unexpected response: ${resp}`);
